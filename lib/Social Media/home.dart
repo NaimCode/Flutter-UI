@@ -135,23 +135,35 @@ class SocialMedia extends StatelessWidget {
                       )),
               Container(
                 width: double.infinity,
-                height: 100,
+                height: 150,
                 decoration: const BoxDecoration(
                     gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
-                        colors: [
-                      Colors.transparent,
-                      Colors.white54,
-                      Colors.white
-                    ])),
+                        colors: [Colors.transparent, Colors.white70])),
                 padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                    const EdgeInsets.symmetric(vertical: 30, horizontal: 40),
                 child: Center(
                   child: Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
                         color: Colors.white),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: listMenu
+                          .map((e) => Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  e.icon!,
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(e.title!,
+                                      style: GoogleFonts.poppins(fontSize: 12)),
+                                ],
+                              ))
+                          .toList(),
+                    ),
                   ),
                 ),
               ),

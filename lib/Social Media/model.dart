@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class User {
   String? name;
   String? username;
@@ -70,4 +72,41 @@ List<Post> listPost = [
       desc:
           "when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
       hashtag: "#yellow #womenpower")
+];
+
+//
+class Menu {
+  String? title;
+  Widget? icon;
+  Menu({
+    this.title,
+    this.icon,
+  });
+}
+
+List<Menu> listMenu = [
+  Menu(
+      title: "Home",
+      icon: const Icon(
+        Icons.home,
+        color: Color(0xff2605D1),
+      )),
+  Menu(
+      title: "Discover",
+      icon: Icon(
+        Icons.map_outlined,
+        color: Colors.brown[900],
+      )),
+  Menu(
+      title: "Inbox",
+      icon: Icon(
+        Icons.inbox_outlined,
+        color: Colors.brown[900],
+      )),
+  Menu(
+      title: "Profile",
+      icon: Icon(
+        Icons.person_outline_outlined,
+        color: Colors.brown[900],
+      )),
 ];
