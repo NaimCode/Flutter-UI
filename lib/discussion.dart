@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ui/Finance%201/model.dart';
+import 'package:ui/model.dart';
 
 class Discussion extends StatefulWidget {
   const Discussion({Key? key}) : super(key: key);
