@@ -25,6 +25,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  int index = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,11 +88,12 @@ class _HomeState extends State<Home> {
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          ListView.builder(
-              itemCount: listPost.length,
-              itemBuilder: (context, index) => ItemPost(
-                    index: index,
-                  )),
+          [
+            const HomeSection(),
+            const Empty(),
+            const Empty(),
+            const Empty(),
+          ][index],
           Container(
             width: double.infinity,
             height: 150,
@@ -109,16 +111,23 @@ class _HomeState extends State<Home> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: listMenu
-                      .map((e) => Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              e.icon!,
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Text(e.title!,
-                                  style: GoogleFonts.poppins(fontSize: 12)),
-                            ],
+                      .map((e) => InkWell(
+                            onTap: () {
+                              setState(() {
+                                index = listMenu.indexOf(e);
+                              });
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                e.icon!,
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Text(e.title!,
+                                    style: GoogleFonts.poppins(fontSize: 12)),
+                              ],
+                            ),
                           ))
                       .toList(),
                 ),
@@ -128,6 +137,21 @@ class _HomeState extends State<Home> {
         ],
       ),
     );
+  }
+}
+
+class HomeSection extends StatelessWidget {
+  const HomeSection({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        itemCount: listPost.length,
+        itemBuilder: (context, index) => ItemPost(
+              index: index,
+            ));
   }
 }
 
@@ -402,6 +426,19 @@ class _ItemPostState extends State<ItemPost>
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class Empty extends StatelessWidget {
+  const Empty({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(
+        child: Text('Empty'),
       ),
     );
   }
