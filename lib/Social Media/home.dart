@@ -146,233 +146,262 @@ class ItemPost extends StatefulWidget {
 class _ItemPostState extends State<ItemPost>
     with SingleTickerProviderStateMixin {
   bool isOpen = false;
-  late AnimationController control;
 
-  late Animation<double> traslation;
+  double _op = 0.0;
+  double _pad = 10;
+
+  void setOpacity() async {
+    await Future.delayed(Duration(milliseconds: 300 * widget.index), () {
+      setState(() {
+        _op = 1.0;
+        _pad = 0;
+      });
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-
-    control = AnimationController(
-      duration: const Duration(milliseconds: 500),
-      vsync: this,
-    );
-    traslation = Tween<double>(
-      begin: 0,
-      end: 80,
-    ).animate(control);
+    setOpacity();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.bottomLeft,
-      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-      width: double.infinity,
-      height: 450,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(40),
-          image: DecorationImage(
-              image: AssetImage(listPost[widget.index].image!),
-              fit: BoxFit.cover)),
-      child: Stack(
-        alignment: Alignment.bottomRight,
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(40),
-                  bottomRight: Radius.circular(40),
-                ),
-                gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.transparent,
-                      Colors.black54,
-                      Colors.black87
-                    ])),
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  children: [
-                    CircleAvatar(
-                      backgroundImage:
-                          AssetImage(listPost[widget.index].user!.image!),
+    return AnimatedPadding(
+      duration: const Duration(milliseconds: 500),
+      padding: EdgeInsets.only(right: _pad),
+      child: AnimatedOpacity(
+        opacity: _op,
+        duration: const Duration(milliseconds: 500),
+        child: Container(
+          alignment: Alignment.bottomLeft,
+          margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+          width: double.infinity,
+          height: 450,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(40),
+              image: DecorationImage(
+                  image: AssetImage(listPost[widget.index].image!),
+                  fit: BoxFit.cover)),
+          child: Stack(
+            alignment: Alignment.bottomRight,
+            children: [
+              Container(
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(40),
+                      bottomRight: Radius.circular(40),
                     ),
-                    const SizedBox(width: 15),
-                    Text(listPost[widget.index].user!.name!,
-                        style: GoogleFonts.montserrat(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white))
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.transparent,
+                          Colors.black54,
+                          Colors.black87
+                        ])),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      children: [
+                        CircleAvatar(
+                          backgroundImage:
+                              AssetImage(listPost[widget.index].user!.image!),
+                        ),
+                        const SizedBox(width: 15),
+                        Text(listPost[widget.index].user!.name!,
+                            style: GoogleFonts.montserrat(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white))
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(listPost[widget.index].desc!,
+                        style: TextStyle(
+                            fontSize: 13,
+                            color: Colors.white.withOpacity(0.9))),
+                    const SizedBox(height: 5),
+                    Text(listPost[widget.index].hashtag!,
+                        style: const TextStyle(
+                            fontSize: 12, color: Colors.white60))
                   ],
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(listPost[widget.index].desc!,
-                    style: TextStyle(
-                        fontSize: 13, color: Colors.white.withOpacity(0.9))),
-                const SizedBox(height: 5),
-                Text(listPost[widget.index].hashtag!,
-                    style: const TextStyle(fontSize: 12, color: Colors.white60))
-              ],
-            ),
-          ),
-          // AnimatedBuilder(
-          //     animation: control,
-          //     builder: (_, child) =>
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 500),
-            child: Transform.translate(
-                offset: Offset(isOpen ? 0 : 80, 0),
-                child: Container(
-                    margin: const EdgeInsets.symmetric(
-                      vertical: 40,
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 30),
-                    height: double.infinity,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              // control!.animateTo(control)
-                              isOpen = !isOpen;
-                            });
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 10),
-                            height: 60,
-                            width: 3,
-                            color: Colors.white,
-                          ),
+              ),
+              // AnimatedBuilder(
+              //     animation: control,
+              //     builder: (_, child) =>
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 500),
+                child: Transform.translate(
+                    offset: Offset(isOpen ? 0 : 80, 0),
+                    child: Container(
+                        margin: const EdgeInsets.symmetric(
+                          vertical: 40,
                         ),
-                        SizedBox(
-                          width: 80,
-                          child: ClipRRect(
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(40),
-                              bottomLeft: Radius.circular(40),
+                        padding: const EdgeInsets.symmetric(vertical: 30),
+                        height: double.infinity,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  // control!.animateTo(control)
+                                  isOpen = !isOpen;
+                                });
+                              },
+                              child: Container(
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                height: 60,
+                                width: 3,
+                                color: Colors.white,
+                              ),
                             ),
-                            child: BackdropFilter(
-                                filter: ImageFilter.blur(
-                                    sigmaX: 10.0, sigmaY: 10.0),
-                                child: Container(
-                                    color: Colors.white10,
-                                    child: !isOpen
-                                        ? const SizedBox()
-                                        : Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              ...[
-                                                const CircleAvatar(
-                                                  backgroundColor:
-                                                      Colors.white38,
-                                                  child: Center(
-                                                    child: Icon(
-                                                        Icons.favorite_outlined,
-                                                        color: Colors.white),
+                            SizedBox(
+                              width: 80,
+                              child: ClipRRect(
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(40),
+                                  bottomLeft: Radius.circular(40),
+                                ),
+                                child: BackdropFilter(
+                                    filter: ImageFilter.blur(
+                                        sigmaX: 10.0, sigmaY: 10.0),
+                                    child: Container(
+                                        color: Colors.white10,
+                                        child: !isOpen
+                                            ? const SizedBox()
+                                            : Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: [
+                                                  ...[
+                                                    const CircleAvatar(
+                                                      backgroundColor:
+                                                          Colors.white38,
+                                                      child: Center(
+                                                        child: Icon(
+                                                            Icons
+                                                                .favorite_outlined,
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          vertical: 2),
+                                                      child: Text(
+                                                        listPost[widget.index]
+                                                            .like!,
+                                                        style: const TextStyle(
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    )
+                                                  ],
+                                                  const SizedBox(
+                                                    height: 3,
                                                   ),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(vertical: 2),
-                                                  child: Text(
-                                                    listPost[widget.index]
-                                                        .like!,
-                                                    style: const TextStyle(
-                                                        color: Colors.white),
+                                                  ...[
+                                                    const CircleAvatar(
+                                                      backgroundColor:
+                                                          Colors.white38,
+                                                      child: Center(
+                                                        child: Icon(
+                                                            Icons.comment,
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          vertical: 2),
+                                                      child: Text(
+                                                        listPost[widget.index]
+                                                            .comment!,
+                                                        style: const TextStyle(
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    )
+                                                  ],
+                                                  const SizedBox(
+                                                    height: 3,
                                                   ),
-                                                )
-                                              ],
-                                              const SizedBox(
-                                                height: 3,
-                                              ),
-                                              ...[
-                                                const CircleAvatar(
-                                                  backgroundColor:
-                                                      Colors.white38,
-                                                  child: Center(
-                                                    child: Icon(Icons.comment,
-                                                        color: Colors.white),
+                                                  ...[
+                                                    const CircleAvatar(
+                                                      backgroundColor:
+                                                          Colors.white38,
+                                                      child: Center(
+                                                        child: Icon(
+                                                            Icons
+                                                                .save_alt_rounded,
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    ),
+                                                    const Padding(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 2),
+                                                      child: Text(
+                                                        "Save",
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    )
+                                                  ],
+                                                  const SizedBox(
+                                                    height: 3,
                                                   ),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(vertical: 2),
-                                                  child: Text(
-                                                    listPost[widget.index]
-                                                        .comment!,
-                                                    style: const TextStyle(
-                                                        color: Colors.white),
-                                                  ),
-                                                )
-                                              ],
-                                              const SizedBox(
-                                                height: 3,
-                                              ),
-                                              ...[
-                                                const CircleAvatar(
-                                                  backgroundColor:
-                                                      Colors.white38,
-                                                  child: Center(
-                                                    child: Icon(
-                                                        Icons.save_alt_rounded,
-                                                        color: Colors.white),
-                                                  ),
-                                                ),
-                                                const Padding(
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical: 2),
-                                                  child: Text(
-                                                    "Save",
-                                                    style: TextStyle(
-                                                        color: Colors.white),
-                                                  ),
-                                                )
-                                              ],
-                                              const SizedBox(
-                                                height: 3,
-                                              ),
-                                              ...[
-                                                const CircleAvatar(
-                                                  backgroundColor:
-                                                      Colors.white38,
-                                                  child: Center(
-                                                    child: Icon(
-                                                        Icons.share_rounded,
-                                                        color: Colors.white),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(vertical: 2),
-                                                  child: Text(
-                                                    listPost[widget.index]
-                                                        .share!,
-                                                    style: const TextStyle(
-                                                        color: Colors.white),
-                                                  ),
-                                                )
-                                              ],
-                                            ],
-                                          ))),
-                          ),
-                        ),
-                      ],
-                    )
-                    //)
-                    )),
+                                                  ...[
+                                                    const CircleAvatar(
+                                                      backgroundColor:
+                                                          Colors.white38,
+                                                      child: Center(
+                                                        child: Icon(
+                                                            Icons.share_rounded,
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          vertical: 2),
+                                                      child: Text(
+                                                        listPost[widget.index]
+                                                            .share!,
+                                                        style: const TextStyle(
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ],
+                                              ))),
+                              ),
+                            ),
+                          ],
+                        )
+                        //)
+                        )),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
