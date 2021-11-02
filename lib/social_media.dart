@@ -120,7 +120,10 @@ class _HomeState extends State<Home> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                e.icon!,
+                                Icon(e.icon!,
+                                    color: index == listMenu.indexOf(e)
+                                        ? const Color(0xff2605D1)
+                                        : null),
                                 const SizedBox(
                                   height: 5,
                                 ),

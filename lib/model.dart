@@ -77,7 +77,7 @@ List<Post> listPost = [
 //
 class Menu {
   String? title;
-  Widget? icon;
+  IconData? icon;
   Menu({
     this.title,
     this.icon,
@@ -85,28 +85,17 @@ class Menu {
 }
 
 List<Menu> listMenu = [
+  Menu(title: "Home", icon: Icons.home_outlined),
   Menu(
-      title: "Home",
-      icon: const Icon(
-        Icons.home,
-        color: Color(0xff2605D1),
-      )),
+    title: "Discover",
+    icon: Icons.map_outlined,
+  ),
   Menu(
-      title: "Discover",
-      icon: Icon(
-        Icons.map_outlined,
-        color: Colors.brown[900],
-      )),
+    title: "Inbox",
+    icon: Icons.inbox_outlined,
+  ),
   Menu(
-      title: "Inbox",
-      icon: Icon(
-        Icons.inbox_outlined,
-        color: Colors.brown[900],
-      )),
-  Menu(
-      title: "Profile",
-      icon: Icon(
-        Icons.person_outline_outlined,
-        color: Colors.brown[900],
-      )),
+    title: "Profile",
+    icon: Icons.person_outline_outlined,
+  ),
 ];
